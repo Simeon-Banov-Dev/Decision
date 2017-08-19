@@ -88,7 +88,7 @@ class Autoloader {
      */
     public function addCustomCallback($namespaceStart, $callback) {
         $this->customCallbacks[$namespaceStart] = $callback;
-        return this;
+        return $this;
     }
     
     /**
@@ -100,7 +100,7 @@ class Autoloader {
      */
     public function addPath($namespaceStart, $rootFolder) {
         $this->loader[$namespaceStart] = substr($rootFolder, -1) !== DIRECTORY_SEPARATOR ? $rootFolder.DIRECTORY_SEPARATOR : $rootFolder;
-        return this;
+        return $this;
     }
     
 }

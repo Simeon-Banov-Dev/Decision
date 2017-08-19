@@ -1,4 +1,6 @@
 <?php
+require_once("Core/Decision.php");
+require_once("Core/Autoloader.php");
 
 define(
     "DECISION_ROOT", 
@@ -22,7 +24,7 @@ function __autoload($class) {
         $dirPath = substr($loader[$parts[0]], -1) !== DIRECTORY_SEPARATOR ? 
                 $loader[$parts[0]].DIRECTORY_SEPARATOR : $loader[$parts[0]];
         for($i=1; $i<count($parts) -1; $i++) {
-            $dirPath += $parts[$i].DIRECTORY_SEPARATOR;
+            $dirPath .= $parts[$i].DIRECTORY_SEPARATOR;
         }
         require_once($dirPath . end($parts) . '.php');
     }
