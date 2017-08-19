@@ -1,5 +1,5 @@
 <?php
-namespace Decision\Core\Request;
+namespace Decision\Core\Web;
 
 /**
  * @author Simeon Banov <svbmony@gmail.com>

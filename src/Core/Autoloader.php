@@ -91,4 +91,16 @@ class Autoloader {
         return this;
     }
     
+    /**
+     * @see Autoloader $loader
+     * @param string $namespaceStart
+     * @param string $rootFolder
+     * @return \Decision\Core\Autoloader
+     * @author Simeon Banov <svbmony@gmail.com>
+     */
+    public function addPath($namespaceStart, $rootFolder) {
+        $this->loader[$namespaceStart] = substr($rootFolder, -1) !== DIRECTORY_SEPARATOR ? $rootFolder.DIRECTORY_SEPARATOR : $rootFolder;
+        return this;
+    }
+    
 }

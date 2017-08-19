@@ -1,3 +1,14 @@
-/nbproject/private/
+nbproject/
+/nbproject/
+trunk/nbproject/
+/trunk/nbproject/
+
 project.properties
+/project.properties
+trunk/project.properties
+/trunk/project.properties
+
 project.xml
+/project.xml
+trunk/project.xml
+/trunk/project.xml
