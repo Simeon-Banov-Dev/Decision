@@ -38,7 +38,7 @@ class Decision {
      * @var array 
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    private $module = array();
+    private $modules = array();
     
     /**
      * using lazy initialization of class to ensure initializing it only when needed
@@ -46,10 +46,21 @@ class Decision {
      * @author Simeon Banov <svbmony@gmail.com>
      */
     public function getAutoloader() {
-        if(!isset($this->module["Decision Autoloader"])) {
-            $this->module["Decision Autoloader"] = \Decision\Autoloader::getInstance();
+        if(!isset($this->modules["Decision Autoloader"])) {
+            $this->modules["Decision Autoloader"] = \Decision\Autoloader::getInstance();
         }
-        return $this->module["Decision Autoloader"];
+        return $this->modules["Decision Autoloader"];
+    }
+    
+    /**
+     * Warring!
+     * Mainly used by Decision modules
+     * The returned value is by reference.
+     * @return array lazy initialization storage for Decision modules
+     * @author Simeon Banov <svbmony@gmail.com>
+     */
+    public function &__getModules() {
+        return $this->modules;
     }
     
 }
