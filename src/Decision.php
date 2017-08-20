@@ -45,7 +45,7 @@ class Decision {
      * @return \Decision\Autoloader
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function getAutoloader() {
+    public function &getAutoloader() {
         if(!isset($this->modules["Decision Autoloader"])) {
             $this->modules["Decision Autoloader"] = \Decision\Autoloader::getInstance();
         }
@@ -53,9 +53,7 @@ class Decision {
     }
     
     /**
-     * Warring!
-     * Mainly used by Decision modules
-     * The returned value is by reference.
+     * Mainly used by Decision modules to add themselves
      * @return array lazy initialization storage for Decision modules
      * @author Simeon Banov <svbmony@gmail.com>
      */

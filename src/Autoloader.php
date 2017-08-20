@@ -27,7 +27,7 @@ class Autoloader {
      * @return Decision\Autoloader
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public static function getInstance() {
+    public static function &getInstance() {
         if(self::$instance == NULL) {
             self::$instance = new Autoloader();
         }
@@ -54,8 +54,10 @@ class Autoloader {
      *         if($class == "MyApp\Test") {
      *           include("path to Test class");
      *         }
-     *       }
-     *   )
+     *       },
+     *     "Test" => "msg@\MyApp\Test",
+     *     "Test2" => "functionName"
+     *   ),
      * @var array
      * @author Simeon Banov <svbmony@gmail.com>
      */
@@ -63,19 +65,34 @@ class Autoloader {
     
     /**
      * get loader storage
-     * @return array @see Autoloader $loader
+     * Structure:
+     *   array(
+     *     "Decision" => "path to Decision main folder"
+     *   )
+     * @return array 
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function getLoader() {
+    public function &getLoader() {
         return $this->loader;
     }
     
     /**
      * get customCallbacks storage
-     * @return array @see Autoloader $customCallbacks
+     * Structure:
+     *   array(
+     *     "MyApp" => 
+     *       function($class) {
+     *         if($class == "MyApp\Test") {
+     *           include("path to Test class");
+     *         }
+     *       },
+     *     "Test" => "msg@\MyApp\Test",
+     *     "Test2" => "functionName"
+     *   )
+     * @return array 
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function getCustomCallbacks() {
+    public function &getCustomCallbacks() {
         return $this->customCallbacks;
     }
     
@@ -86,7 +103,7 @@ class Autoloader {
      * @return \Decision\Autoloader
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function addCustomCallback($namespaceStart, $callback) {
+    public function &addCustomCallback($namespaceStart, $callback) {
         $this->customCallbacks[$namespaceStart] = $callback;
         return $this;
     }
@@ -102,8 +119,75 @@ class Autoloader {
      * @return \Decision\Autoloader
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function addPath($namespaceStart, $rootFolder) {
+    public function &addPath($namespaceStart, $rootFolder) {
+        $namespaceStart = substr($namespaceStart, 0, 1)==="\\" ? substr($namespaceStart, 1) : $namespaceStart;
         $this->loader[$namespaceStart] = substr($rootFolder, -1) !== DIRECTORY_SEPARATOR ? $rootFolder.DIRECTORY_SEPARATOR : $rootFolder;
+        return $this;
+    }
+    
+    /**
+     * @param string $namespace
+     * @return boolean (TRUE) if autoloader knows of the namespace, (FALSE) if autoloader does not know of the namespace
+     * @author Simeon Banov <svbmony@gmail.com>
+     */
+    public function hasNamespace($namespace) {
+        $namespace = substr($namespace, 0, 1)==="\\" ? substr($namespace, 1) : $namespace;
+        $parts = array();
+        if(strpos($namespace, "\\") === FALSE) {
+            $parts[0] = $namespace;
+        } else {
+            $parts = explode("\\", $namespace);
+        }
+        return isset($this->loader[$parts[0]]);
+    }
+    
+    /**
+     * @param string $namespace
+     * @return string
+     * @author Simeon Banov <svbmony@gmail.com>
+     */
+    public function getNamespacePath($namespace) {
+        $namespace = substr($namespace, 0, 1)==="\\" ? substr($namespace, 1) : $namespace;
+        $parts = array();
+        if(strpos($namespace, "\\") === FALSE) {
+            $parts[0] = $namespace;
+        } else {
+            $parts = explode("\\", $namespace);
+        }
+        $dirPath = substr($this->loader[$parts[0]], -1) !== DIRECTORY_SEPARATOR ? 
+                $this->loader[$parts[0]].DIRECTORY_SEPARATOR : $this->loader[$parts[0]];
+        for($i=1; $i<count($parts) -1; $i++) {
+            $dirPath .= $parts[$i].DIRECTORY_SEPARATOR;
+        }
+        return $dirPath . end($parts);
+    }
+    
+    /**
+     * @param string $namespaceOrClass
+     * @return boolean (TRUE) if autoloader knows of the namespace or class, (FALSE) if autoloader does not know of the namespace or class
+     * @author Simeon Banov <svbmony@gmail.com>
+     */
+    public function hasCustomCallback($namespaceOrClass) {
+        return isset($this->customCallbacks[$namespaceOrClass]);
+    }
+    
+    /**
+     * @param string $namespaceOrClass
+     * @return \Decision\Autoloader
+     * @author Simeon Banov <svbmony@gmail.com>
+     */
+    public function &customCallback($namespaceOrClass) {
+        if(is_executable($this->customCallbacks[$namespaceOrClass])) {
+            $this->customCallbacks[$namespaceOrClass]();
+        } else if(strpos($this->customCallbacks[$namespaceOrClass], "@") !== FALSE) {
+            $parts = explode("@", $this->customCallbacks[$namespaceOrClass]);
+            $object = new $parts[2];
+            if(method_exists($parts[0], $object)) {
+                $object->$parts[0]();
+            }
+        } else if (function_exists($this->customCallbacks[$namespaceOrClass])) {
+            call_user_func($this->customCallbacks[$namespaceOrClass]);
+        }
         return $this;
     }
     
