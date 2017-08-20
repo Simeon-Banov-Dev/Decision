@@ -92,7 +92,11 @@ class Autoloader {
     }
     
     /**
-     * @see Autoloader $loader
+     * adds to storage for namespace autoloading
+     * Structure:
+     *   array(
+     *     "Decision" => "path to Decision main folder"
+     *   )
      * @param string $namespaceStart
      * @param string $rootFolder
      * @return \Decision\Core\Autoloader

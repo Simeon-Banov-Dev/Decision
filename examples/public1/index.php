@@ -11,7 +11,8 @@ decision()->getRouter()->set("/index.php","");
     </head>
     <body>
         <div class="body">
-            Example 1
+            Example 1<br/>
+            <?php new \MyApp\Test();?>
         </div>
     </body>
 </html>

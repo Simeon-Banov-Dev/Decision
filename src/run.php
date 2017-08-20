@@ -38,10 +38,10 @@ function __autoload($class) {
 }
 
 /**
- * shortcut to Decision::getInstance()
- * @return \Decision\Core\Decision
+ * shortcut to \Decision\Decision::getInstance()
+ * @return \Decision\Decision
  * @author Simeon Banov <svbmony@gmail.com>
  */
 function decision() {
-    return Decision\Decision::getInstance();
+    return \Decision\Decision::getInstance();
 }
