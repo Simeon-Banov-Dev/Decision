@@ -1,7 +1,7 @@
 <?php
 include("../../src/run.php");
 decision()->getAutoloader()->addPath("MyApp", __DIR__);
-decision()->getRouter()->set("/index.php","");
+decision()->getWebRouter()->set("/index.php","");
 ?>
 <!DOCTYPE html>
 <html>

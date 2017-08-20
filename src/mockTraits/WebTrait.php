@@ -12,14 +12,14 @@ trait WebTrait {
     /**
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function getRequest() {
+    public function getWebRequest() {
         throw new \Exception("In order to use Request, please install Web module of Decision.");
     }
     
     /**
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function getRouter() {
+    public function getWebRouter() {
         throw new \Exception("In order to use Request, please install Web module of Decision.");
     }
     

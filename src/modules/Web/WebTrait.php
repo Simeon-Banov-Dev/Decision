@@ -13,7 +13,7 @@ trait WebTrait {
      * @return \Decision\Web\Request
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function getRequest() {
+    public function getWebRequest() {
         if(!isset($this->module["Decision Web Request"])) {
             $this->module["Decision Web Request"] = new \Decision\Web\Request();
         }
@@ -25,7 +25,7 @@ trait WebTrait {
      * @return \Decision\Web\Router\Router
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function getRouter() {
+    public function getWebRouter() {
         if(!isset($this->module["Decision Web Router Router"])) {
             $this->module["Decision Web Router Router"] = \Decision\Web\Router\Router::getInstance();
         }
