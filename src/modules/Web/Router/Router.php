@@ -1,5 +1,5 @@
 <?php
-namespace Decision\Core\Web;
+namespace Decision\Web\Router;
 
 /**
  * @author Simeon Banov <svbmonny@gmail.com>
@@ -8,7 +8,7 @@ class Router {
     
     /**
      * Singleton design pattern
-     * @var Decision\Core\Web\Router
+     * @var Decision\Web\Router\Router
      * @author Simeon Banov <svbmony@gmail.com>
      */
     private static $instance = NULL;
@@ -21,7 +21,7 @@ class Router {
     
     /**
      * Singleton design pattern
-     * @return Decision\Core\Web\Router
+     * @return Decision\Web\Router\Router
      * @author Simeon Banov <svbmony@gmail.com>
      */
     public static function getInstance() {

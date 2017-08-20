@@ -1,5 +1,5 @@
 <?php
-namespace Decision\Core;
+namespace Decision;
 
 /**
  * @author Simeon Banov <svbmony@gmail.com>
@@ -9,7 +9,7 @@ class Autoloader {
     
     /**
      * Singleton design pattern
-     * @var Decision\Core\Autoloader 
+     * @var Decision\Autoloader 
      * @author Simeon Banov <svbmony@gmail.com>
      */
     private static $instance = NULL;
@@ -19,12 +19,12 @@ class Autoloader {
      * @author Simeon Banov <svbmony@gmail.com>
      */
     private function __construct() {
-        $this->loader["Decision"] = DECISION_ROOT;
+        $this->loader["Decision"] = DECISION_ROOT."modules".DIRECTORY_SEPARATOR;
     }
     
     /**
      * Singleton design pattern
-     * @return Decision\Core\Autoloader
+     * @return Decision\Autoloader
      * @author Simeon Banov <svbmony@gmail.com>
      */
     public static function getInstance() {
@@ -83,7 +83,7 @@ class Autoloader {
      * @see Autoloader $customCallbacks
      * @param string $namespaceStart the namespace start (name)
      * @param function $callback callback anonymous function, argument is namespace+class path as string
-     * @return \Decision\Core\Autoloader
+     * @return \Decision\Autoloader
      * @author Simeon Banov <svbmony@gmail.com>
      */
     public function addCustomCallback($namespaceStart, $callback) {
@@ -99,7 +99,7 @@ class Autoloader {
      *   )
      * @param string $namespaceStart
      * @param string $rootFolder
-     * @return \Decision\Core\Autoloader
+     * @return \Decision\Autoloader
      * @author Simeon Banov <svbmony@gmail.com>
      */
     public function addPath($namespaceStart, $rootFolder) {

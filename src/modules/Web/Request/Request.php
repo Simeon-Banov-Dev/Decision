@@ -1,5 +1,5 @@
 <?php
-namespace Decision\Core\Web;
+namespace Decision\Web;
 
 /**
  * @author Simeon Banov <svbmony@gmail.com>

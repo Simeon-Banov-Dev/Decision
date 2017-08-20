@@ -1,5 +1,5 @@
 <?php
-namespace Decision\Core\Web\Router;
+namespace Decision\Web\Router\Routes;
 
 class SimpleRoute {
     
