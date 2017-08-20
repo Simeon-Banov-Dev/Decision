@@ -1,5 +1,5 @@
 <?php
-include("../../src/Decision.php");
+include("../../src/run.php");
 decision()->getAutoloader()->addPath("MyApp", __DIR__);
 decision()->getRouter()->set("/index.php","");
 ?>
