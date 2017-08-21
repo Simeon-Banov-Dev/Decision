@@ -1,6 +1,3 @@
-<?php
-namespace MyApp\View;
-?>
 <!DOCTYPE html>
 <html>
     <head>
