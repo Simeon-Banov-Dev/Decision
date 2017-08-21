@@ -89,6 +89,7 @@ class Router {
         $request = \Decision\Web\Request::getInstance();
         foreach($this->routes[$request->getMethod()] as $route) {
             if($route->matches($request)) {
+                $request->getRouteName() = $route->getName();
                 $this->responses[] = $route->getResponse();
             }
         }

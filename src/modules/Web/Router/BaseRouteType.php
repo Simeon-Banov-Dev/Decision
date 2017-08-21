@@ -32,4 +32,12 @@ abstract class BaseRouteType implements \Decision\Web\Router\RouteInterface {
         return new \Decision\Web\Response($this->options);
     }
     
+    /**
+     * @return string 
+     * @author Simeon Banov <svbmony@gmail.com>
+     */
+    public function getName() {
+        return isset($this->options['name'])?$this->options['name']:"";
+    }
+    
 }

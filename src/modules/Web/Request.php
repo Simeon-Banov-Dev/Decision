@@ -41,6 +41,7 @@ class Request {
     private $uri;
     private $get;
     private $post;
+    private $routeName = "";
     
     /**
      * Extract all possible data for the Web Request
@@ -149,6 +150,16 @@ class Request {
      */
     public function &getPost() {
         return $this->post;
+    }
+    
+    /**
+     * Request route name. 
+     * \Decision\Web\Router\Router->route() needs to run before being available
+     * @return array
+     * @author Simeon Banov <svbmony@gmail.com>
+     */
+    public function &getRouteName() {
+        return $this->routeName;
     }
     
 }

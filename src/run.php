@@ -22,12 +22,14 @@ foreach (new \DirectoryIterator(DECISION_ROOT."modules".DIRECTORY_SEPARATOR) as 
     }
 }
 
+require_once("Autoloader.php");
+// TODO: enable the programer to define his __autoload function
+// meaning that this has to be in the \Decision namespace
 /**
  * Namespace autoloading
  * @param string $namespaceOrClass namespace + class name or only class name
  * @author Simeon Banov <svbmony@gmail.com>
  */
-require_once("Autoloader.php");
 function __autoload($namespaceOrClass) {
     $autoloader = \Decision\Autoloader::getInstance();
     if($autoloader->hasCustomCallback($namespaceOrClass)) {

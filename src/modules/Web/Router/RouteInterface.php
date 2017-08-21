@@ -15,5 +15,6 @@ interface RouteInterface {
      * @param \Decision\Web\Request $request
      */
     public function matches($request);
+    public function getName();
     
 }
