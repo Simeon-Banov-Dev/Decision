@@ -153,9 +153,17 @@ class Request {
     }
     
     /**
+     * @param string $name
+     * @author Simeon Banov <svbmony@gmail.com>
+     */
+    public function setRouteName($name) {
+        $this->routeName = $name;
+    }
+    
+    /**
      * Request route name. 
      * \Decision\Web\Router\Router->route() needs to run before being available
-     * @return array
+     * @return string
      * @author Simeon Banov <svbmony@gmail.com>
      */
     public function &getRouteName() {
