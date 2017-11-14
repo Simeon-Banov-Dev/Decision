@@ -13,10 +13,10 @@ trait WebTrait {
      * @return \Decision\Web\Request
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function getWebRequest() {
+    public function &getWebRequest() {
         $modules = decision()->__getModules();
         if(!isset($modules["Decision Web Request"])) {
-            $modules["Decision Web Request"] = new \Decision\Web\Request();
+            $modules["Decision Web Request"] = \Decision\Web\Request::getInstance();
         }
         return $modules["Decision Web Request"];
     }
@@ -26,7 +26,7 @@ trait WebTrait {
      * @return \Decision\Web\Router\Router
      * @author Simeon Banov <svbmony@gmail.com>
      */
-    public function getWebRouter() {
+    public function &getWebRouter() {
         $modules = decision()->__getModules();
         if(!isset($modules["Decision Web Router Router"])) {
             $modules["Decision Web Router Router"] = \Decision\Web\Router\Router::getInstance();
