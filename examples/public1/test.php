@@ -1,5 +1,5 @@
 <?php
 /**
- * This could be a non public view, you Decide ;)
+ * That folder could be a non public view, you Decide ;)
  */
 include("MyApp/config.php");
