@@ -10,6 +10,11 @@ define(
         __DIR__.DIRECTORY_SEPARATOR : __DIR__
 );
 
+if(!is_file(DECISION_ROOT."Decision.php")) {
+    // TODO: better error page
+    die("Decision is not setup, please run setup.php in the decision folder to setup.");
+}
+
 /**
  * Loading of Decision module configurations 
  * @author Simeon Banov <svbmony@gmail.com>
