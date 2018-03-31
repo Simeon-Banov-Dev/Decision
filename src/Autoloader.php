@@ -154,10 +154,14 @@ class Autoloader {
         } else {
             $parts = explode("\\", $namespace);
         }
-        $dirPath = substr($this->loader[$parts[0]], -1) !== DIRECTORY_SEPARATOR ? 
-                $this->loader[$parts[0]].DIRECTORY_SEPARATOR : $this->loader[$parts[0]];
-        for($i=1; $i<count($parts) -1; $i++) {
-            $dirPath .= $parts[$i].DIRECTORY_SEPARATOR;
+        if(count($parts)==2 && $parts[0]=="Decision") {
+            $dirPath = DECISION_ROOT;
+        } else {
+            $dirPath = substr($this->loader[$parts[0]], -1) !== DIRECTORY_SEPARATOR ? 
+                    $this->loader[$parts[0]].DIRECTORY_SEPARATOR : $this->loader[$parts[0]];
+            for($i=1; $i<count($parts) -1; $i++) {
+                $dirPath .= $parts[$i].DIRECTORY_SEPARATOR;
+            }
         }
         return $dirPath . end($parts);
     }
