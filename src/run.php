@@ -51,7 +51,7 @@ function __autoload($namespaceOrClass) {
  * not present and we need to create it.
  * @author Simeon Banov <svbmony@gmail.com>
  */
-require_once("mockTraits/init.php");
+// require_once("mockTraits/init.php");
 
 /**
  * Decision class is the main point of entry
