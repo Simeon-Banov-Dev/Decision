@@ -12,7 +12,7 @@ return [
             "body" => [
                 "\$modules = decision()->__getModules();",
                 "if(!isset(\$modules[\"Decision Web Request\"])) {",
-                "\$modules[\"Decision Web Request\"] = \\Decision\\Web\\Request::getInstance();",
+                "\t\$modules[\"Decision Web Request\"] = \\Decision\\Web\\Request::getInstance();",
                 "}",
                 "return \$modules[\"Decision Web Request\"];"
             ]
@@ -28,7 +28,7 @@ return [
             "body" => [
                 "\$modules = decision()->__getModules();",
                 "if(!isset(\$modules[\"Decision Web Router Router\"])) {",
-                "\$modules[\"Decision Web Router Router\"] = \\Decision\\Web\\Router\\Router::getInstance();",
+                "\t\$modules[\"Decision Web Router Router\"] = \\Decision\\Web\\Router\\Router::getInstance();",
                 "}",
                 "return \$modules[\"Decision Web Router Router\"];"
             ]

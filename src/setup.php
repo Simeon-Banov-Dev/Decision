@@ -14,16 +14,21 @@ define(
  * make keys case insensitive
  * @param array $array
  */
-function makeKeysCaseInsensitive(Array &$array) {
+function makeKeysCaseInsensitive(Array &$array, $depth=1) {
     foreach ($array as $key=>$value) {
-        if(strtolower($key) != $key) {
+        if($depth != 2 && strtolower($key) != $key) {
             $array[strtolower($key)] = $value;
-        }
-        if(is_array($value)) {
-            makeKeysCaseInsensitive($array[strtolower($key)]);
-        }
-        if(strtolower($key) != $key) {
-            unset($array[$key]);
+            if(is_array($value)) {
+                makeKeysCaseInsensitive($array[strtolower($key)], $depth+1);
+            }
+            if($depth != 2 && strtolower($key) != $key) {
+                unset($array[$key]);
+            }
+        } else if($depth == 2) {
+            $array[$key] = $value;
+            if(is_array($value)) {
+                makeKeysCaseInsensitive($array[$key], $depth+1);
+            }
         }
     }
 }
@@ -33,30 +38,30 @@ function makeKeysCaseInsensitive(Array &$array) {
  * @param Mixed $javadoc either an array or string
  */
 function getJavaDoc($javadoc) {
-    $return = "\t/**".PHP_EOL;
+    $return = "\t/**";
     if(is_array($javadoc['javadoc'])) {
         if(isset($javadoc['javadoc']['comment'])) {
             if(is_array($javadoc['javadoc']['comment'])) {
                 foreach($javadoc['javadoc']['comment'] as $javadocCommentRow) {
-                    $return.= "\t * ".$javadocCommentRow.PHP_EOL;
+                    $return.= PHP_EOL."\t * ".$javadocCommentRow;
                 }
             } else {
-                $return.= "\t * ".$javadoc['javadoc']['comment'].PHP_EOL;
+                $return.= PHP_EOL."\t * ".$javadoc['javadoc']['comment'];
             }
         }
 
         if(isset($javadoc['javadoc']['return'])) {
-            $return.= "\t * @return ".$javadoc['javadoc']['return'];
+            $return.= PHP_EOL."\t * @return ".$javadoc['javadoc']['return'];
         }
 
         if(isset($javadoc['javadoc']['author'])) {
-            $return.= "\t * @author ".$javadoc['javadoc']['author'];
+            $return.= PHP_EOL."\t * @author ".$javadoc['javadoc']['author'];
         }
 
         if(isset($javadoc['javadoc']['vars'])) {
             foreach($javadoc['javadoc']['vars'] as $var) {
                 if(is_array($var)) {
-                    $return.= "\t * ";
+                    $return.= PHP_EOL."\t * ";
                     if(isset($var["type"])) {
                         $return.= "@var ".$var['type']." ";
                     } else {
@@ -70,7 +75,6 @@ function getJavaDoc($javadoc) {
                     if(isset($var['description'])) {
                         $return.= $var['description'];
                     }
-                    $return.= PHP_EOL;
                 } else {
                     $return.= $var;
                 }
@@ -78,13 +82,13 @@ function getJavaDoc($javadoc) {
         }
         foreach($javadoc['javadoc'] as $key=>$value) {
             if($key != "author" && $key != "return" && $key != "vars" && $key != "comment") {
-                $return.= "\t * ".$value;
+                $return.= PHP_EOL."\t * ".$value;
             }
         }
     } else if(is_string($params['javadoc'])) {
-        $return.= $javadoc['javadoc'] .PHP_EOL;
+        $return.= $javadoc['javadoc'] . PHP_EOL;
     }
-    $return.= "\t */".PHP_EOL;
+    return $return.= PHP_EOL."\t */".PHP_EOL;
 }
 
 /**
@@ -193,7 +197,7 @@ $errors = [];
 /**
  * Decision class base start, middle and end content
  */
-$decisionClassStart = "<?php".PHP_EOL."namespace "."Decision;".PHP_EOL."".PHP_EOL."/**".PHP_EOL." * Main entry point for the package".PHP_EOL." * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL." */".PHP_EOL."class "."Decision {".PHP_EOL."".PHP_EOL."\t/**".PHP_EOL."\t * Singleton design pattern".PHP_EOL."\t * @var "."Decision\\Decision".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tprivate static $"."instance = NULL;".PHP_EOL."\t".PHP_EOL."\t/**".PHP_EOL."\t * Singleton design pattern".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tprivate function __construct() {}".PHP_EOL."\t".PHP_EOL."\t/**".PHP_EOL."\t * Singleton design pattern".PHP_EOL."\t * @return "."Decision\\Decision".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tpublic static function getInstance() {".PHP_EOL."\t\tif(self::$"."instance == NULL) {".PHP_EOL."\t\t\tself::$"."instance = new "."Decision();".PHP_EOL."\t\t\t}".PHP_EOL."\t\treturn self::$"."instance;".PHP_EOL."\t}".PHP_EOL."\t".PHP_EOL."\t/**".PHP_EOL."\t * lazy initialization storage for "."Decision modules".PHP_EOL."\t * @var array".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tprivate $"."modules = array();".PHP_EOL."\t".PHP_EOL."\t/**".PHP_EOL."\t * using lazy initialization of class to ensure initializing it only when needed".PHP_EOL."\t * @return \\"."Decision\\Autoloader".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tpublic function &getAutoloader() {".PHP_EOL."\t\tif(!isset($"."this->modules['Decision Autoloader'])) {".PHP_EOL."\t\t\t$"."this->modules['Decision Autoloader'] = \\"."Decision\\Autoloader::getInstance();".PHP_EOL."\t\t}".PHP_EOL."\t\treturn $"."this->modules['Decision Autoloader'];".PHP_EOL."\t}".PHP_EOL."\t".PHP_EOL."\t/**\t * Mainly used by "."Decision modules to add themselves\t * @return array lazy initialization storage for "."Decision modules".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tpublic function &__getModules() {".PHP_EOL."\t\treturn $"."this->modules;".PHP_EOL."\t}".PHP_EOL."\t".PHP_EOL."\t".PHP_EOL;
+$decisionClassStart = "<?php".PHP_EOL."namespace "."Decision;".PHP_EOL."".PHP_EOL."/**".PHP_EOL." * Main entry point for the package".PHP_EOL." * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL." */".PHP_EOL."class "."Decision {".PHP_EOL."".PHP_EOL."\t/**".PHP_EOL."\t * Singleton design pattern".PHP_EOL."\t * @var "."Decision\\Decision".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tprivate static $"."instance = NULL;".PHP_EOL."\t".PHP_EOL."\t/**".PHP_EOL."\t * Singleton design pattern".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tprivate function __construct() {}".PHP_EOL."\t".PHP_EOL."\t/**".PHP_EOL."\t * Singleton design pattern".PHP_EOL."\t * @return "."Decision\\Decision".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tpublic static function getInstance() {".PHP_EOL."\t\tif(self::$"."instance == NULL) {".PHP_EOL."\t\t\tself::$"."instance = new "."Decision();".PHP_EOL."\t\t}".PHP_EOL."\t\treturn self::$"."instance;".PHP_EOL."\t}".PHP_EOL."\t".PHP_EOL."\t/**".PHP_EOL."\t * lazy initialization storage for "."Decision modules".PHP_EOL."\t * @var array".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tprivate $"."modules = array();".PHP_EOL."\t".PHP_EOL."\t/**".PHP_EOL."\t * using lazy initialization of class to ensure initializing it only when needed".PHP_EOL."\t * @return \\"."Decision\\Autoloader".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tpublic function &getAutoloader() {".PHP_EOL."\t\tif(!isset($"."this->modules['Decision Autoloader'])) {".PHP_EOL."\t\t\t$"."this->modules['Decision Autoloader'] = \\"."Decision\\Autoloader::getInstance();".PHP_EOL."\t\t}".PHP_EOL."\t\treturn $"."this->modules['Decision Autoloader'];".PHP_EOL."\t}".PHP_EOL."\t".PHP_EOL."\t/**".PHP_EOL."\t * Mainly used by "."Decision modules to add themselves".PHP_EOL."\t * @return array lazy initialization storage for "."Decision modules".PHP_EOL."\t * @author Simeon Banov <svbmony@gmail.com>".PHP_EOL."\t */".PHP_EOL."\tpublic function &__getModules() {".PHP_EOL."\t\treturn $"."this->modules;".PHP_EOL."\t}".PHP_EOL;
 $decisionClassMiddle = "";
 $decisionClassEnd = PHP_EOL.'}';
 
@@ -215,7 +219,6 @@ foreach (new \DirectoryIterator(DECISION_ROOT."modules".DIRECTORY_SEPARATOR) as 
 foreach ($modules as $module) {
     // get setupConfig.php of module, if no setupConfig.php present - skip
     $cpath = DECISION_ROOT."modules".DIRECTORY_SEPARATOR.$module.DIRECTORY_SEPARATOR."setupConfig.php";
-    print $cpath.PHP_EOL;
     if(!is_file($cpath)) {
         print "Skiping ".$module." (No config file) ".PHP_EOL;
         continue;
@@ -255,16 +258,15 @@ foreach ($modules as $module) {
                 $warnings[] = "Module ".$module." has incorect index ".$key." for 'DecisionAddonMethod' array in setupConfig.php and the method definition was not implemented.";
                 continue;
             }
-            $decisionClassMiddle.= PHP_EOL;
-            print_r($setupConfig);
+            $decisionClassMiddle .= PHP_EOL;
             
             // add javadoc if present
             if(isset($params['javadoc'])) {
-                $decisionClassMiddle.= getJavaDoc($params);
+                $decisionClassMiddle .= getJavaDoc($params);
             }
             
             // construct the method
-            $decisionClassMiddle.= 
+            $decisionClassMiddle .= 
                     "\t".
                     getFunctionModifier($params).
                     " function ".
@@ -279,13 +281,11 @@ foreach ($modules as $module) {
 }
 
 if(count($errors)==0) {
-    if(!($decisionClass = fopen("Decision.php", "w"))){
-        $errors[] = "setup.php does not have permission to write in directory ".DECISION_ROOT;
+    if(!($decisionClass = fopen(DECISION_ROOT . "Decision.php", "w"))){
+        $errors[] = "setup.php does not have permission to write in directory " . DECISION_ROOT;
     }
-    if(count($errors)==0) {
-        fwrite($decisionClass, $decisionClassStart.$decisionClassMiddle.$decisionClassEnd);
-        fclose($decisionClass);
-    }
+    fwrite($decisionClass, $decisionClassStart.$decisionClassMiddle.$decisionClassEnd);
+    fclose($decisionClass);
 }
 
 output($warnings, $errors);
