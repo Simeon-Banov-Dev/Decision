@@ -199,5 +199,15 @@ class Autoloader {
         }
         return $this;
     }
+
+    public static function autoload($namespaceOrClass) {
+        $autoloader = self::getInstance();
+        if($autoloader->hasCustomCallback($namespaceOrClass)) {
+            $autoloader->callback($namespaceOrClass);
+        }
+        if($autoloader->hasNamespace($namespaceOrClass)) {
+            require_once($autoloader->getNamespacePath($namespaceOrClass) . '.php');
+        }
+    }
     
 }
