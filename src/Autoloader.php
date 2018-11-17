@@ -154,7 +154,12 @@ class Autoloader {
         } else {
             $parts = explode("\\", $namespace);
         }
-        if(count($parts)==2 && $parts[0]=="Decision") {
+        if(isset($parts[1]) && $parts[0] == "Decision" && $parts[1] == "Setup") {
+            $dirPath = DECISION_ROOT;
+            for($i=1; $i<count($parts) -1; $i++) {
+                $dirPath .= $parts[$i].DIRECTORY_SEPARATOR;
+            }
+        } else if(count($parts)==2 && $parts[0]=="Decision") {
             $dirPath = DECISION_ROOT;
         } else {
             $dirPath = substr($this->loader[$parts[0]], -1) !== DIRECTORY_SEPARATOR ? 
@@ -193,6 +198,16 @@ class Autoloader {
             call_user_func($this->customCallbacks[$namespaceOrClass]);
         }
         return $this;
+    }
+
+    public static function autoload($namespaceOrClass) {
+        $autoloader = self::getInstance();
+        if($autoloader->hasCustomCallback($namespaceOrClass)) {
+            $autoloader->callback($namespaceOrClass);
+        }
+        if($autoloader->hasNamespace($namespaceOrClass)) {
+            require_once($autoloader->getNamespacePath($namespaceOrClass) . '.php');
+        }
     }
     
 }

@@ -35,15 +35,7 @@ require_once("Autoloader.php");
  * @param string $namespaceOrClass namespace + class name or only class name
  * @author Simeon Banov <svbmony@gmail.com>
  */
-function __autoload($namespaceOrClass) {
-    $autoloader = \Decision\Autoloader::getInstance();
-    if($autoloader->hasCustomCallback($namespaceOrClass)) {
-        $autoloader->callback($namespaceOrClass);
-    }
-    if($autoloader->hasNamespace($namespaceOrClass)) {
-        require_once($autoloader->getNamespacePath($namespaceOrClass) . '.php');
-    }
-}
+spl_autoload_register(array('Decision\Autoloader','autoload'));
 
 /**
  * Decision class always needs some Traits

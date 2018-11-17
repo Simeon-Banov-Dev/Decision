@@ -1,4 +1,6 @@
 <?php
+# not used, as priority is SetupDecisionClassTemplate.php
+# if it exists in this directory
 return [
     "DecisionAddonMethod" => [
         "getWebRequest" => [
