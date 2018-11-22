@@ -194,13 +194,13 @@ class DecisionSetup {
 	 * @author Daniel
 	 */
 	public function output(Array &$warnings, Array &$errors) {
-		$return = "";
+            $return = "";
 	    // TODO: make a better error page, preferably an HTML page
 	    $return .= "<pre>";
-	    $return .= count($errors)==0?"Errors -<br/>":"No Errors<br/>";
+	    $return .= count($errors)>0?"Errors -<br/>":"No Errors<br/>";
 	    $return .= count($errors)==0?"":print_r($errors, true);
 	    $return .= "<br/>";
-	    $return .= count($warnings)==0?"Warnings -<br/>":"No Warnings<br/>";
+	    $return .= count($warnings)>0?"Warnings -<br/>":"No Warnings<br/>";
 	    $return .= count($warnings)==0?"":print_r($warnings, true);
 	    $return .= "</pre>";
 	    $return .= "<br/>";
